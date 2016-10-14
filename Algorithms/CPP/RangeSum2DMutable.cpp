@@ -1,3 +1,21 @@
+/* Problem Description:
+ *
+ * Given a 2D matrix matrix, find the sum of the elements inside the rectangle defined by its upper left corner (row1, col1)
+ * and lower right corner (row2, col2).
+ *
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix numMatrix(matrix);
+ * numMatrix.sumRegion(0, 1, 2, 3);
+ * numMatrix.update(1, 1, 10);
+ * numMatrix.sumRegion(1, 2, 3, 4);
+ * 
+ * Solution Description:
+ *
+ * Below solution adopts 2D Binary Index Tree algorithm to provide O(logm*logn) time complexity, O(m*n) space complexity for Mutable 2D Range Sum Problem.
+ *
+ * Author: Rongcong Xu
+ * Email: rcxu0713@gmail.com
+ */
 class NumMatrix {
     int _numRow = 0;
     int _numCol = 0;
