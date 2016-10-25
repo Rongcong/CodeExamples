@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="success_block"></div>
+        <div class="error_block"></div>
+
+        <div class="container page-form">            
+            <form id="update_user">
+                <div class="form-group">
+                    <label>firstname:</label>
+                    <input class="form-control" type="text" name="firstname" id="update_firstname_input">
+                </div>
+
+                <div class="form-group">
+                    <label>lastname:</label>
+                    <input class="form-control" type="text" name="lastname" id="update_lastname_input">
+                </div>
+
+                <div class="form-group">
+                    <label>email:</label>
+                    <input class="form-control" type="text" name="email" id="update_email_input">
+                </div>
+
+                <div class="form-group">
+                    <label>password1:</label>
+                    <input class="form-control" type="password" name="password1" id="update_password1_input">
+                    <label>password2:</label>
+                    <input class="form-control" type="password" name="password2" id="update_password2_input">
+                </div>
+
+                <input class="btn btn-default" type="submit" id="update_submit" value="Save">
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/validation.js"></script>
+    <script type="text/javascript" src="/static/js/user_edit.js"></script>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+    <header>
+        <div class="jumbotron">
+            <div class="container">
+                <h1> Welcome to our photo albums website!</h1>
+                <p> It's a website for people to create their own albums! </p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <h2> Public Albums </h2>
+            <hr>
+            {% for album in public_albums_list %}
+                <div class="col-md-4">
+                    <a href="{{ url_for('album.album_route') }}?albumid={{ album.albumid }}" id="album_{{ album.albumid }}_link">
+                        <h2> {{ album.title }} </h2>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <h2> Users </h2>
+            <hr>
+            {% for user in users_list %}
+                <div class="col-md-4">
+                    <h2> {{ user }} </h2>
+                    <a class="btn btn-default" href="{{ url_for('albums.albums_route') }}?username={{user}}" id="user_albums_{{user}}"> View Public albums</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

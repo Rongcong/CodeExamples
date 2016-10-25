@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+    <header>
+        <div class="jumbotron">
+            <div class="container">
+                <h1> {{ album_info.title }} </h1>
+                <h2> Access: {{ album_info.access }} </h2>
+                <p> LastUpdated: {{ album_info.lastupdated }} </p>
+            </div>
+        </div>
+    </header>
+
+
+
+    <div class="container">
+        {% if not edit %}
+            {% if own %}
+                <div class="row">
+                	<div class="col-md-12">
+                		<a class="btn btn-default" href="{{ url_for('album.album_edit_route') }}?albumid={{ albumid }}"> Edit Album</a>
+                	</div>
+                </div>
+                <hr>
+            {% endif %}
+        {% endif %}
+
+        {% if edit %}
+            <form action="{{ url_for('album.album_edit_route') }}?albumid={{ albumid }}" method="post">
+                <div class="radio">
+                    <label><input type="radio" name="access" value="public" id="album_edit_public_radio">Public</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="access" value="private" id="album_edit_private_radio">Private</label>
+                </div>
+                <input type="hidden" name="op" value="access">
+                <input type="hidden" name="albumid" value="{{ albumid }}">
+                <input class="btn btn-default" type="submit" value="Submit" id="album_edit_access_submit">
+            </form>
+            <hr>
+        {% endif %}
+
+        {% if edit and album_info.access == "private" %}
+            <h2> grant users list </h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Update Access</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {% for user in grant_users_list %}
+                        <tr>
+                            <td> {{ user }} </td>
+                            <td>
+                                <form action="{{ url_for('album.album_edit_route') }}?albumid={{ albumid }}" method="post">
+                                    <input type="hidden" name="username" value="{{ user }}">
+                                    <input type="hidden" name="albumid" value="{{ albumid }}">
+                                    <input class="btn btn-default" type="submit" name="op" value="revoke" id="album_edit_revoke_{{ user }}">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <form action="{{ url_for('album.album_edit_route') }}?albumid={{ albumid }}" method="post">
+                            <td>
+                                <input class="form-control" type="text" name="username" id="album_edit_grant_input"> 
+                            </td>
+                            <td>
+                                <input type="hidden" name="albumid" value="{{ albumid }}">
+                                <input class="btn btn-default" type="submit" name="op" value="grant" id="album_edit_grant_submit">
+                            </td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+
+
+
+           <div class="row">
+            	{% for photo in photos_list%}
+                    <div class="col-md-3">
+                		<div class="card">
+                			<a href="{{ url_for('pic.pic_route') }}?picid={{ photo.picid }}" class="thumbnail" id="pic_{{ photo.picid }}_link">
+                                {% set photo_url = url_for('static', filename='images/' + photo.picid + '.' + photo.format) %}
+                                <div class="photo" style="background-image:url({{ photo_url }})"></div>
+                			</a>
+                            
+                            <div class="card-block">
+                                <center class="card-text"> {{ photo.date }} </p>
+                                <center class="card-text"> {{ photo.caption }} </p>
+                                
+                                {% if edit %}
+                                    <p class="card-text">
+                                        <form action="{{ url_for('album.album_edit_route') }}?albumid={{ albumid }}" method="post">
+                                            <div class="input-group">
+                                                <input type="hidden" name="albumid" value="{{ albumid }}">
+                                                <input type="hidden" name="picid" value="{{ photo.picid }}">
+                                                <input class="btn btn-default" type="submit" name="op" value="delete" id="delete_pic_{{ photo.picid }}">
+                                            </div>
+                                        </form>
+                                    </p>
+                                {% endif %}
+                            </div>
+                		</div>
+                    </div>
+            	{% endfor %}
+            </div>
+
+        {% if edit %}
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="{{ url_for('album.album_edit_route') }}?albumid={{ albumid }}" method="post" enctype="multipart/form-data">
+                        <div class="input-group">
+                            <input type="file" name="file" id="file_input">
+                            <input type="hidden" name="albumid" value="{{ albumid }}">
+                            <input class="btn btn-default" type="submit" name="op" value="add" id="file_submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

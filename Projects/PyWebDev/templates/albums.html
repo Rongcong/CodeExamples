@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+    <header>
+        <div class="jumbotron">
+            <div class="container">
+                <h1> {{ username }}'s Albums</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+
+            {% if not edit and logged_in %}
+                <div class="col-md-12">
+                    <a class="btn btn-default" href="{{ url_for('albums.albums_edit_route') }}" id="user_albums_edit_{{ username }}"> Edit Albums </a>
+                </div>
+            {% endif %}
+
+            {% for album in albums_list %}
+                <div class="col-md-4">
+                    <a href="{{ url_for('album.album_route') }}?albumid={{ album.albumid }}" id="album_{{ album.albumid }}_link"><h2> {{ album.title }} </h2></a>
+                    {% if edit %}
+                        <p> Access: {{ album.access }} </p>
+                        <p> LastUpdated: {{ album.lastupdated }} </p>
+                        <a class="btn btn-default" href="{{ url_for('album.album_edit_route') }}?albumid={{ album.albumid }}" id="album_edit_{{ album.albumid }}_link"> Edit </a>
+                        <form action="{{ url_for('albums.albums_edit_route') }}" method="post">
+                            <div class="input-group">
+                                <input type="hidden" name="albumid" value="{{ album.albumid }}">
+                                <input class="btn btn-default" type="submit" name="op" value="delete" id="delete_album_{{ album.albumid }}">
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if edit %}
+        <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="{{ url_for('albums.albums_edit_route') }}" method="post">
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="title" id="album_add_name">
+                            <input type="hidden" name="username" value="{{ username }}">
+                            <input class="btn btn-default" type="submit" name="op" value="add" id="album_add_submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

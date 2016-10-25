@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<header>
+    <div class="jumbotron">
+        <div class="container">
+        	<div class="header">
+        	</div>
+        </div>
+    </div>
+</header>
+
+<div class="row">
+	<div class="container">
+		<div class="content">
+		</div>
+	</div>
+</div>
+<script>
+var albumid = "{{ albumid }}";
+</script>
+<script type="text/javascript" src="/static/js/album.js"></script>
+<script type="text/javascript" src="/static/js/album_pic_api.js"></script>
+{% endblock %}
