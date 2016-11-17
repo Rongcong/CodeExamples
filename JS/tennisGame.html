@@ -20,14 +20,14 @@ var ballSpeedX = 5;
 var ballSpeedY = 10;
 var paddle1Y = 250;
 var paddle2Y = 250;
-var paddleSpeed = 18;
+var paddleSpeed = 25;
 var player1Score = 0;
 var player2Score = 0;
 
 var showingWinScreen = false;
 
 const PADDLE_THICKNESS = 10;
-const PADDLE_HEIGHT = 70;
+const PADDLE_HEIGHT = 120;
 const WINNING_SCORE = 3;
 const CANVAS_TOP = 0;
 
@@ -101,7 +101,7 @@ function moveEverything() {
 	ballX += ballSpeedX;
 	ballY += ballSpeedY;
 	
-	if (ballX > canvas.width) 
+	if (ballX > canvas.width - PADDLE_THICKNESS/2) 
 		if (ballY > paddle2Y && ballY < paddle2Y+PADDLE_HEIGHT) {
 			ballSpeedX *= -1;
 			var deltaY = ballY - (paddle2Y+PADDLE_HEIGHT/2);
@@ -113,7 +113,7 @@ function moveEverything() {
 		} 
 			
 	
-	if (ballX < 0)
+	if (ballX < PADDLE_THICKNESS/2)
 		if (ballY > paddle1Y && ballY < paddle1Y+PADDLE_HEIGHT) {
 			ballSpeedX *= -1;
 			var deltaY = ballY-(paddle1Y+PADDLE_HEIGHT/2);
@@ -151,9 +151,9 @@ function drawEverything() {
 		canvasContext.fillStyle = gradient;
 
 		if (player1Score >= WINNING_SCORE)
-			canvasContext.fillText("Human Player Won", 250, CANVAS_TOP+200);
-		else
 			canvasContext.fillText("Computer Player Won", 250, CANVAS_TOP+200);
+		else
+			canvasContext.fillText("Human Player Won", 250, CANVAS_TOP+200);
 		canvasContext.fillText("click to continue", 285, CANVAS_TOP+350);
 		return;
 	}
@@ -166,8 +166,8 @@ function drawEverything() {
 	colorCirc(ballX, ballY, 10, 'white');
 
 	canvasContext.font = "20px Georgia"
-	canvasContext.fillText(player1Score, 100, CANVAS_TOP+100);
-	canvasContext.fillText(player2Score, canvas.width-100, CANVAS_TOP+100);
+	canvasContext.fillText("Human: " + player1Score, 100, CANVAS_TOP+100);
+	canvasContext.fillText("Computer: " + player2Score, canvas.width-200, CANVAS_TOP+100);
 }
 
 function colorCirc(centerX, centerY, radius, drawColor) {
